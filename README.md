@@ -2,7 +2,7 @@ Docker stacks, using a central nginx reverse proxy to manage external accessibil
 
 Characteristics:
 * Only reverse proxy opens ports to the internet
-* Reverse proxy manages https certificates for all servises
+* Reverse proxy manages https certificates for all services
 * https forwarding for all http requests.
 
 Stacks:
