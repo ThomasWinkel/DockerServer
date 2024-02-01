@@ -1,0 +1,28 @@
+version: '3.6'
+
+services:
+
+  gitlab:
+    image: gitlab/gitlab-ce
+    container_name: gitlab
+    restart: unless-stopped
+    hostname: 'gitlab.example.com'
+    networks:
+      - nginx_proxy
+      - default
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'https://gitlab.example.com'
+    #ports:
+    #  - '80:80'
+    #  - '443:443'
+    #  - '22:22'
+    volumes:
+      - .volumes/config:/etc/gitlab
+      - .volumes/logs:/var/log/gitlab
+      - .volumes/data:/var/opt/gitlab
+    shm_size: '256m'
+
+networks:
+  nginx_proxy:
+    external: true

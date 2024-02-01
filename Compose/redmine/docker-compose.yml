@@ -1,0 +1,31 @@
+version: "3.7"
+
+services:
+
+  www_redmine:
+    image: redmine
+    restart: unless-stopped
+    networks:
+      - nginx_proxy
+      - default
+    environment:
+      - REDMINE_DB_MYSQL=dbu1234
+      - REDMINE_DB_PASSWORD=dbpw1234
+      - TZ=Europe/Berlin
+    volumes:
+      - ./volumes/files:/usr/src/redmine/files
+
+db_redmine:
+    image: mariadb
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=dbrpw1234
+      - MYSQL_USER=dbu1234
+      - MYSQL_PASSWORD=dbupw1234
+      - MYSQL_DATABASE=db1234
+    volumes:
+      - ./volumes/mysql:/var/lib/mysql
+
+networks:
+  nginx_proxy:
+    external: true

@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+
+  www_lamp:
+    build: ./docker/www
+    restart: unless-stopped
+    networks:
+      - nginx_proxy
+      - default
+    volumes:
+      - ./volumes/html:/var/www/html
+
+  db_lamp:
+    image: mariadb
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=dbrpw1234
+      - MYSQL_USER=dbu1234
+      - MYSQL_PASSWORD=dbupw1234
+      - MYSQL_DATABASE=db1234
+    volumes:
+      - ./volumes/mysql:/var/lib/mysql
+
+  phpmyadmin_lamp:
+    image: phpmyadmin
+    restart: unless-stopped
+    environment:
+      - PMA_HOST=db_lamp
+      - PMA_PORT=3306
+    networks:
+      - nginx_proxy
+      - default
+
+networks:
+  nginx_proxy:
+    external: true
